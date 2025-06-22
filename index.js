@@ -41,6 +41,6 @@ app.get("/api/download", (req, res) => {
   res.redirect(GOOGLE_DRIVE_URL);
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Servidor de descargas corriendo en http://localhost:${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
 });
