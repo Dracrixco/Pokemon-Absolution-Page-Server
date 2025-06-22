@@ -6,8 +6,9 @@ const cors = require("cors");
 const app = express();
 const PORT = 4000;
 
-// Ruta real del ZIP en el disco
-const ZIP_PATH = path.join(__dirname, "public", "Game.zip");
+// Enlace de descarga directo de Google Drive
+const GOOGLE_DRIVE_URL =
+  "https://drive.google.com/file/d/1cT0m04sBDGL6U8xqznVomvbMBKAiyI8q/view?usp=drive_link";
 
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
@@ -36,7 +37,8 @@ app.get("/api/download", (req, res) => {
 
   console.log(`⬇️  Descarga registrada: ${ip} (${country})`);
 
-  res.download(ZIP_PATH, "PokemonAbsolution.zip");
+  // 🔁 Redirige al enlace de Google Drive
+  res.redirect(GOOGLE_DRIVE_URL);
 });
 
 app.listen(PORT, () => {
