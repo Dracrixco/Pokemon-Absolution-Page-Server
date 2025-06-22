@@ -7,7 +7,7 @@ const app = express();
 const PORT = 4000;
 
 // Ruta real del ZIP en el disco
-const ZIP_PATH = path.join(__dirname, "public", "Pokemon Absolution (0.0.99)");
+const ZIP_PATH = path.join(__dirname, "public", "Game.zip");
 
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
