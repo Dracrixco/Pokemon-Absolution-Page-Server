@@ -41,6 +41,38 @@ app.get("/api/download", (req, res) => {
   res.redirect(GOOGLE_DRIVE_URL);
 });
 
+app.get("/api/countries", (req, res) => {
+  if (!fs.existsSync(LOG_FILE)) {
+    return res.status(200).json({});
+  }
+
+  const raw = fs.readFileSync(LOG_FILE, "utf-8").trim();
+  if (!raw) return res.status(200).json({});
+
+  let logs;
+  try {
+    logs = JSON.parse(raw);
+  } catch (err) {
+    return res.status(500).json({ error: "Error leyendo el log" });
+  }
+
+  const countryCount = {};
+
+  for (const log of logs) {
+    const country = log.country || "UNKNOWN";
+    countryCount[country] = (countryCount[country] || 0) + 1;
+  }
+
+  const sorted = Object.entries(countryCount)
+    .sort((a, b) => b[1] - a[1]) // Orden descendente
+    .reduce((obj, [country, count]) => {
+      obj[country] = count;
+      return obj;
+    }, {});
+
+  res.json(sorted);
+});
+
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
 });
