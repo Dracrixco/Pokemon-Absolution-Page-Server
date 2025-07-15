@@ -11,6 +11,7 @@ const GOOGLE_DRIVE_URL =
   "https://drive.google.com/file/d/19E1EovzWUB6OU4ydaUBqaHY0nYrOQjjx/view?usp=sharing";
 
 const VERSION_NAME = "0.1.2";
+const LAST_UPDATED = "2025-06-15"; // Year - Month - Day (-1)
 
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
@@ -48,6 +49,7 @@ app.get("/api/game-info", (req, res) => {
   res.json({
     version: VERSION_NAME,
     downloadLink: GOOGLE_DRIVE_URL,
+    lastUpdated: LAST_UPDATED,
   });
 });
 
