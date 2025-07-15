@@ -8,7 +8,9 @@ const PORT = 4000;
 
 // Enlace de descarga directo de Google Drive
 const GOOGLE_DRIVE_URL =
-  "https://drive.google.com/file/d/11Z3resNmp-O7ew4xtO4-S5dPLvJdhavs/view?usp=drive_link";
+  "https://drive.google.com/file/d/19E1EovzWUB6OU4ydaUBqaHY0nYrOQjjx/view?usp=sharing";
+
+const VERSION_NAME = "0.1.2";
 
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
@@ -41,13 +43,28 @@ app.get("/api/download", (req, res) => {
   res.redirect(GOOGLE_DRIVE_URL);
 });
 
+// Nueva ruta para obtener información del juego
+app.get("/api/game-info", (req, res) => {
+  res.json({
+    version: VERSION_NAME,
+    downloadLink: GOOGLE_DRIVE_URL,
+  });
+});
+
 app.get("/api/countries", (req, res) => {
   if (!fs.existsSync(LOG_FILE)) {
-    return res.status(200).json({});
+    return res.status(200).json({
+      countries: {},
+      totalDownloads: 0,
+    });
   }
 
   const raw = fs.readFileSync(LOG_FILE, "utf-8").trim();
-  if (!raw) return res.status(200).json({});
+  if (!raw)
+    return res.status(200).json({
+      countries: {},
+      totalDownloads: 0,
+    });
 
   let logs;
   try {
@@ -70,7 +87,10 @@ app.get("/api/countries", (req, res) => {
       return obj;
     }, {});
 
-  res.json(sorted);
+  res.json({
+    countries: sorted,
+    totalDownloads: logs.length,
+  });
 });
 
 app.listen(PORT, "0.0.0.0", () => {
