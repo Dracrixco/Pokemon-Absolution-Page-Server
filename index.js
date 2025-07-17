@@ -8,10 +8,10 @@ const PORT = 4000;
 
 // Enlace de descarga directo de Google Drive
 const GOOGLE_DRIVE_URL =
-  "https://drive.google.com/file/d/19E1EovzWUB6OU4ydaUBqaHY0nYrOQjjx/view?usp=sharing";
+  "https://drive.google.com/file/d/19E1EovzWUB6OU4ydaUBqaHY0nYrOQjjx/view?usp=sharingVS";
 
-const VERSION_NAME = "0.1.2";
-const LAST_UPDATED = "2025-06-15"; // Year - Month - Day (-1)
+const VERSION_NAME = "0.1.3";
+const LAST_UPDATED = "2025-06-18"; // Year - Month - Day (-1)
 
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
