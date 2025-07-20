@@ -107,7 +107,7 @@ app.get("/api/game-info", (req, res) => {
   res.json({
     version: latestInfo.version,
     downloadLink: GOOGLE_DRIVE_URL,
-    lastUpdated: latestInfo.date,
+    lastUpdated: formatDate(latestInfo.date),
   });
 });
 
