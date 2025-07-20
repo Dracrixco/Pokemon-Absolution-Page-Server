@@ -9,7 +9,7 @@ const PORT = 4000;
 
 // Enlace de descarga directo de Google Drive
 const GOOGLE_DRIVE_URL =
-  "https://drive.google.com/file/d/1tXJWHUOU_iRogieah9w1ShQ05dMWMWWg/view?usp=drive_link";
+  "https://drive.google.com/file/d/1XOG8pmJ-UYl7a_9T4buF7d3TX0s-LF9m/view?usp=sharing";
 
 const VERSION_NAME = "0.1.3";
 const LAST_UPDATED = "2025-06-18"; // Year - Month - Day (-1)
