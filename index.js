@@ -11,14 +11,33 @@ const PORT = 4000;
 const GOOGLE_DRIVE_URL =
   "https://drive.google.com/file/d/1XOG8pmJ-UYl7a_9T4buF7d3TX0s-LF9m/view?usp=sharing";
 
-const VERSION_NAME = "0.1.3";
-const LAST_UPDATED = "2025-06-18"; // Year - Month - Day (-1)
-
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
 const UPDATES_FILE = path.join(__dirname, "updates.json");
 
 app.use(cors());
+
+// Función para obtener la información de la última actualización
+function getLatestUpdateInfo() {
+  const updates = loadUpdates();
+  if (updates.length === 0) {
+    return {
+      version: "v0.1.0",
+      date: "2025-01-01",
+    };
+  }
+
+  // Ordenar por fecha más reciente (asumiendo formato YYYY-MM-DD)
+  const sortedUpdates = updates.sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
+  const latestUpdate = sortedUpdates[0];
+
+  return {
+    version: latestUpdate.version,
+    date: latestUpdate.date,
+  };
+}
 
 // Función para verificar si una actualización es nueva (menos de 3 días)
 function isUpdateNew(dateString) {
@@ -83,10 +102,12 @@ app.get("/api/download", (req, res) => {
 
 // Nueva ruta para obtener información del juego
 app.get("/api/game-info", (req, res) => {
+  const latestInfo = getLatestUpdateInfo();
+
   res.json({
-    version: VERSION_NAME,
+    version: latestInfo.version,
     downloadLink: GOOGLE_DRIVE_URL,
-    lastUpdated: LAST_UPDATED,
+    lastUpdated: latestInfo.date,
   });
 });
 
@@ -187,5 +208,7 @@ app.get("/api/countries", (req, res) => {
 });
 
 app.listen(PORT, "0.0.0.0", () => {
+  const latestInfo = getLatestUpdateInfo();
   console.log(`Servidor corriendo en http://0.0.0.0:${PORT}`);
+  console.log(`Versión actual: ${latestInfo.version} (${latestInfo.date})`);
 });
