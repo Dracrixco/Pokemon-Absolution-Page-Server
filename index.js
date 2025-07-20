@@ -16,8 +16,44 @@ const LAST_UPDATED = "2025-06-18"; // Year - Month - Day (-1)
 
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
+const UPDATES_FILE = path.join(__dirname, "updates.json");
 
 app.use(cors());
+
+// Función para verificar si una actualización es nueva (menos de 3 días)
+function isUpdateNew(dateString) {
+  const updateDate = new Date(dateString);
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - updateDate.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays <= 3;
+}
+
+// Función para formatear fecha
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+// Función para cargar updates del archivo JSON
+function loadUpdates() {
+  if (!fs.existsSync(UPDATES_FILE)) {
+    console.error("Archivo updates.json no encontrado");
+    return [];
+  }
+
+  try {
+    const raw = fs.readFileSync(UPDATES_FILE, "utf-8");
+    return JSON.parse(raw);
+  } catch (err) {
+    console.error("Error leyendo updates.json:", err);
+    return [];
+  }
+}
 
 app.get("/api/download", (req, res) => {
   const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
@@ -51,6 +87,60 @@ app.get("/api/game-info", (req, res) => {
     version: VERSION_NAME,
     downloadLink: GOOGLE_DRIVE_URL,
     lastUpdated: LAST_UPDATED,
+  });
+});
+
+// Nueva ruta para obtener todas las actualizaciones
+app.get("/api/updates", (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const startIndex = (page - 1) * limit;
+  const endIndex = startIndex + limit;
+
+  const updates = loadUpdates();
+
+  // Añadir información adicional a cada update
+  const updatesWithMeta = updates.map((update) => ({
+    ...update,
+    isNew: isUpdateNew(update.date),
+    formattedDate: formatDate(update.date),
+  }));
+
+  // Si se solicita paginación
+  if (req.query.page || req.query.limit) {
+    const paginatedUpdates = updatesWithMeta.slice(startIndex, endIndex);
+    const hasMore = endIndex < updatesWithMeta.length;
+    const totalPages = Math.ceil(updatesWithMeta.length / limit);
+
+    return res.json({
+      updates: paginatedUpdates,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalUpdates: updatesWithMeta.length,
+        hasMore,
+        limit,
+      },
+    });
+  }
+
+  // Si no se solicita paginación, devolver todas
+  res.json(updatesWithMeta);
+});
+
+// Nueva ruta para obtener una actualización específica por ID
+app.get("/api/updates/:id", (req, res) => {
+  const updates = loadUpdates();
+  const update = updates.find((u) => u.id === req.params.id);
+
+  if (!update) {
+    return res.status(404).json({ error: "Actualización no encontrada" });
+  }
+
+  res.json({
+    ...update,
+    isNew: isUpdateNew(update.date),
+    formattedDate: formatDate(update.date),
   });
 });
 
