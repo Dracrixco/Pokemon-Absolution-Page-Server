@@ -9,7 +9,7 @@ const PORT = 4000;
 
 // Enlace de descarga directo de Google Drive
 const GOOGLE_DRIVE_URL =
-  "https://drive.google.com/file/d/1XOG8pmJ-UYl7a_9T4buF7d3TX0s-LF9m/view?usp=sharing";
+  "https://drive.google.com/file/d/1f830ZpCY1rbiMwiVknlPDA9hSKFhHJR7/view?usp=sharing";
 
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
