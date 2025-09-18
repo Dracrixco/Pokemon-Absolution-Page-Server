@@ -8,8 +8,16 @@ const app = express();
 const PORT = 4000;
 
 // Enlace de descarga directo de Google Drive
-const GOOGLE_DRIVE_URL =
-  "https://drive.google.com/file/d/1f830ZpCY1rbiMwiVknlPDA9hSKFhHJR7/view?usp=sharing";
+const DOWNLOAD_LINK = [
+  {
+    url: "https://drive.google.com/file/d/1f830ZpCY1rbiMwiVknlPDA9hSKFhHJR7/view?usp=sharing",
+    from: "Google Drive",
+  },
+  {
+    url: "https://www.mediafire.com/file/nbsz7305zae99s5/Pokemon+Absolution+(Beta+1)+(v0.1.5).zip/file",
+    from: "MediaFire",
+  },
+];
 
 // Archivo donde guardamos los logs
 const LOG_FILE = path.join(__dirname, "downloads.json");
@@ -105,9 +113,9 @@ app.get("/api/game-info", (req, res) => {
   const latestInfo = getLatestUpdateInfo();
 
   res.json({
-    version: latestInfo.version,
-    downloadLink: GOOGLE_DRIVE_URL,
+    downloadLink: DOWNLOAD_LINK,
     lastUpdated: formatDate(latestInfo.date),
+    latestInfo: latestInfo.version,
   });
 });
 
