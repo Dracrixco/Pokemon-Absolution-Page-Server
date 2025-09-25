@@ -1,5 +1,16 @@
 [
   {
+    "id": "7",
+    "name": "Into the Twilight! - Fixes and Improvements 2",
+    "description": "Bug fixes, improvements, and content updates including Pokédex entries, encounter adjustments, and visual fixes.",
+    "version": "0.1.5.1b",
+    "date": "2025-09-25",
+    "changes": [
+      "Cries added to fakemons.",
+      "Display_height and display_width methods force to Graphics Module (A fix try for some Joiplay players)."
+    ]
+  },
+  {
     "id": "6",
     "name": "Into the Twilight! - Fixes and Improvements",
     "description": "Bug fixes, improvements, and content updates including Pokédex entries, encounter adjustments, and visual fixes.",

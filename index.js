@@ -10,11 +10,11 @@ const PORT = 4000;
 // Enlace de descarga directo de Google Drive
 const DOWNLOAD_LINK = [
   {
-    url: "https://drive.google.com/file/d/1VJMwg6Gf8CMdIip5EciJYmIjtfygKRf5/view?usp=sharing",
+    url: "https://drive.google.com/file/d/1nzhjHyIZ1ydZ4VTy-di4tQ3n2JdT84Fy/view?usp=sharing",
     from: "Google Drive",
   },
   {
-    url: "http://www.mediafire.com/file/zig2yrw1ap1ag2f/Pokemon_Absolution_%28v0.1.5.1a%29.zip",
+    url: "http://www.mediafire.com/file/9dkqal0n3i06j97/Absolution_%28v0.1.5b%29.zip",
     from: "MediaFire",
   },
 ];
