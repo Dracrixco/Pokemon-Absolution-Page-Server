@@ -23,19 +23,20 @@ const DOWNLOAD_LINK = [
 const LOG_FILE = path.join(__dirname, "downloads.json");
 const UPDATES_FILE = path.join(__dirname, "updates.json");
 
-app.use(
-  cors({
-    origin: [
-      "https://dracrixco.com",
-      "https://www.dracrixco.com",
-      "https://pokemonabsolution.xyz",
-      "https://www.pokemonabsolution.xyz",
-    ],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // only if you use cookies/auth headers
-  }),
-);
+const corsOptions = {
+  origin: [
+    "https://dracrixco.com",
+    "https://www.dracrixco.com",
+    "https://pokemonabsolution.xyz",
+    "https://www.pokemonabsolution.xyz",
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options("/{*any}", cors(corsOptions));
 
 // Función para obtener la información de la última actualización
 function getLatestUpdateInfo() {
