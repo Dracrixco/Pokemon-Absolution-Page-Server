@@ -37,6 +37,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 app.options("/{*any}", cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 // Función para obtener la información de la última actualización
 function getLatestUpdateInfo() {
