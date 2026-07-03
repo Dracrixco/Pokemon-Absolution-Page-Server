@@ -36,9 +36,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("/{*any}", cors(corsOptions));
-app.options("*", cors(corsOptions));
-
 // Función para obtener la información de la última actualización
 function getLatestUpdateInfo() {
   const updates = loadUpdates();
@@ -119,7 +116,7 @@ app.get("/api/download", (req, res) => {
   console.log(`⬇️  Descarga registrada: ${ip} (${country})`);
 
   // 🔁 Redirige al enlace de Google Drive
-  res.redirect(GOOGLE_DRIVE_URL);
+  res.redirect(DOWNLOAD_LINK[0].url);
 });
 
 // Nueva ruta para obtener información del juego
